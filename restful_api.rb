@@ -2,9 +2,7 @@ require 'drb'
 require 'rubygems'
 require 'sinatra'
 
-# Adhearson = DRb.new_with_uri 'druby://127.0.0.1:9050'
-
-SIP_TRUNK = "SIP/%s@voipms"
+Adhearson = DRb.new_with_uri 'druby://127.0.0.1:9050'
 
 get '/' do
   <<-HTML
@@ -42,11 +40,11 @@ end
 
 post "/call" do
   source, destination = params.values_at :source, :destination
-  call = Adhearsion.proxy.introduce SIP_TRUNK % source, SIP_TRUNK % destination
-  id   = call.asndfjas
-  {:call => {:id => call_id}}.to_xml
+  call = Adhearsion.proxy.introduce "IAX2/voipms/#{source}", "IAX2/voipms/#{destination}"
+  # {:call => {:id => call_id}}.to_xml
 end
 
 post "/hangup" do
   Adhearsion.proxy.hangup params[:call_to_hangup]
+  "ok"
 end
