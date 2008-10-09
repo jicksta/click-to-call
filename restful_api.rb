@@ -2,7 +2,8 @@ require 'drb'
 require 'rubygems'
 require 'sinatra'  # Get with "gem install sinatra"
 
-Adhearson = DRb.new_with_uri 'druby://127.0.0.1:9050'
+# Adhearsion must be running also. Type "ahn start ." from within this folder
+Adhearson = DRbObject.new_with_uri 'druby://127.0.0.1:9050'
 
 get '/' do
   <<-HTML
