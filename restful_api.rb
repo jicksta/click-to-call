@@ -1,6 +1,6 @@
 require 'drb'
 require 'rubygems'
-require 'sinatra'
+require 'sinatra'  # Get with "gem install sinatra"
 
 Adhearson = DRb.new_with_uri 'druby://127.0.0.1:9050'
 
