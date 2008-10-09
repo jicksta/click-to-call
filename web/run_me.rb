@@ -14,7 +14,7 @@ get '/' do
   
   <h1>Adhearsion Click to Call Demo</h1>
   
-  <a href='#' onclick='javascript:jQuery.get("/ajax", {}, function(data) { alert(data); });'>Alert from /ajax</a>
+  <a href='#' onclick='javascript:$.get("/ajax", {}, function(data) { alert(data); });'>Alert from /ajax</a>
   
   <h2>Start a call between two numbers</h2>
   
@@ -46,7 +46,6 @@ end
 post "/call" do
   source, destination = params.values_at :source, :destination
   call = Adhearsion.proxy.introduce "IAX2/voipms/#{source}", "IAX2/voipms/#{destination}"
-  # {:call => {:id => call_id}}.to_xml
 end
 
 post "/hangup" do
