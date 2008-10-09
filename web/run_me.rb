@@ -9,8 +9,12 @@ get '/' do
   <<-HTML
 <html><head>
   <title>Click to call demo</title>
+  <script src="jquery.js" type="text/javascript"></script>
 </head><body>
+  
   <h1>Adhearsion Click to Call Demo</h1>
+  
+  <a href='#' onclick='javascript:jQuery.get("/ajax", {}, function(data) { alert(data); });'>Alert from /ajax</a>
   
   <h2>Start a call between two numbers</h2>
   
@@ -48,4 +52,8 @@ end
 post "/hangup" do
   Adhearsion.proxy.hangup params[:call_to_hangup]
   "ok"
+end
+
+get '/ajax' do
+  "O HAI"
 end
