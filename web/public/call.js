@@ -42,20 +42,20 @@ function Call(viewer_element, source, destination) {
     },
     
     ringing: function() {
-      this.update_text("Ringing");
-      this.queue_next_heartbeat();
+      self.update_text("Ringing");
+      self.queue_next_heartbeat();
     },
     
     established: function() {
-      this.update_text("Call in progress!")
+      self.update_text("Call in progress!")
     },
     
     hanging_up: function() {
-      this.update_text("Hanging up");
+      self.update_text("Hanging up");
     },
     
     finished: function() {
-      this.update_text("Call finished");
+      self.update_text("Call finished");
     },
     
     error: function() {
