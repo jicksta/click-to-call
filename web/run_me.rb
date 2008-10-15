@@ -3,26 +3,33 @@ require 'rubygems'
 require 'sinatra'  # Get with "gem install sinatra"
 
 # Adhearsion must be running also. Type "ahn start ." from within this folder
-Adhearson = DRbObject.new_with_uri 'druby://127.0.0.1:9050'
+Adhearsion = DRbObject.new_with_uri 'druby://localhost:9050'
 
 get '/' do
   <<-HTML
 <html><head>
   <title>Click to call demo</title>
   <script src="jquery.js" type="text/javascript"></script>
+  <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+  
 </head><body>
   
   <h1>Adhearsion Click to Call Demo</h1>
   
-  <a href='#' onclick='javascript:$.get("/ajax", {}, function(data) { alert(data); });'>Alert from /ajax</a>
+  <a href='#' onclick='javascript:new Call();'>Alert from /ajax</a>
   
   <h2>Start a call between two numbers</h2>
   
-  <form action="call" method="post">
-    <label for="source">Source:</label> <input type="text" name="source"/><br/>
-    <label for="destination">Destination:</label> <input type="text" name="destination"/><br/>
-    <input type="submit" value="Call">
-  </form>
+  <div id="call-form">
+    <form action="call" method="post">
+      <p>The number <input type="text" name="source"/> will appear to call <input type="text" name="destination"/><br/>
+      <input type="submit" value="Start Call!">
+    </form>
+  </div>
+  
+  <div id="call">
+    <img src="/spinner.gif" />Starting...
+  </div>
   
   <h2>Hangup a particular call</h2>
   
@@ -44,8 +51,8 @@ get '/' do
 end
 
 post "/call" do
-  source, destination = params.values_at :source, :destination
-  call = Adhearsion.proxy.introduce "IAX2/voipms/#{source}", "IAX2/voipms/#{destination}"
+  source, destination = params.values_at(:source, :destination).map { |number| "IAX2/voipms/#{number}" }
+  Adhearsion.proxy.call_into_context source, 'adhearsion', :variables => {:destination => destination}
 end
 
 post "/hangup" do
@@ -53,6 +60,8 @@ post "/hangup" do
   "ok"
 end
 
-get '/ajax' do
-  "O HAI"
+get '/status' do
+  destination = params[:destination]
+  call = Adhearsion.web.call_with_destination destination
+  call.inspect
 end

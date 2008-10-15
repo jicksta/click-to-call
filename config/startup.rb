@@ -23,4 +23,15 @@ Adhearsion::Configuration.configure do |config|
   
 end
 
+Adhearsion::Hooks::AfterInitialized.create_hook do
+
+  def call_with_destination(destination)
+    puts "got hereee"
+    Adhearsion.active_calls.to_a.find { |call| call.variables[:destintion] == destination }
+  end
+
+  Adhearsion::DrbDoor.instance.add "web", "call_with_destination", method("call_with_destination")
+  
+end
+
 Adhearsion::Initializer.start_from_init_file(__FILE__, File.dirname(__FILE__) + "/..")

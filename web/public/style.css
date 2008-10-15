@@ -1,0 +1,10 @@
+body {
+	font-family: sans-serif;
+}
+#call {
+	width: 300px;
+	background-color: #cfcfcf;
+	border: 3px double white;
+	text-align: center;
+	padding: 6px 3px;
+}
