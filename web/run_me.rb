@@ -16,33 +16,19 @@ get '/' do
   
 </head><body>
   <div id="content">
-  <h1>Adhearsion Click to Call Demo</h1>
+  <h1>Click to Call Demo</h1>
   
-  <h2>Start a call between two numbers</h2>
+  <h2>Bridge two people together</h2>
   
   <div id="call-form">
-    <p>The number <input type="text" id="source" name="source"/> will appear to call <input type="text" name="destination" id="destination"/><br/>
-    <button onclick="new Call($('#source').value, $('#destination').value)">Start call</button>
+    <label for="source">Primary party: </label><input type="text" id="source" name="source"/><br/>
+    <label for="destination">Second party: </label><input type="text" name="destination" id="destination"/><br/>
+    <button onclick="new Call($('#call'), $('#source').value, $('#destination').value)">Start call</button>
   </div>
   
-  <div id="call">
+  <div id="call" class="hidden">
     <p>Starting...</p>
   </div>
-  
-  <h2>Hangup a particular call</h2>
-  
-  <h3>Active calls</h3>
-  
-  <ul>
-    <li><a href="hangup/123812831">1231231231</a></li>
-  </ul>
-  
-  <h3>or enter a call ID below</h3>
-  
-  <form action="hangup" method="post">
-    <label for="call_to_hangup">Call to hangup:</label> <input type="text" name="call_to_hangup"/>
-    <input type="submit" value="Hangup"/>
-  </form>
   
 </body></html>
   HTML

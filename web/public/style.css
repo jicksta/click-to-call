@@ -1,14 +1,31 @@
 body {
 	font-family: sans-serif;
+	background-color: #aaaaeF;
 }
 
 #content {
+  background-color: white;
   width: 400px;
   margin: 0 auto;
+  padding: 10px;
+  border: 3px double #cfcfcf;
+}
+
+#content h1 {
+  margin: 0;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  border: 3px double white;
+}
+
+#content h2 {
+  letter-spacing: -1px;
+  text-align: center;
 }
 
 #call {
-	width: 300px;
 	background-color: #cfcfcf;
 	border: 3px double white;
 	text-align: center;
