@@ -26,8 +26,10 @@ end
 Adhearsion::Hooks::AfterInitialized.create_hook do
 
   def call_with_destination(destination)
-    puts "got hereee"
-    Adhearsion.active_calls.to_a.find { |call| call.variables[:destintion] == destination }
+    ahn_log.web "Finding call with destination #{destination.inspect} in #{Adhearsion.active_calls.size} active calls"
+    Adhearsion.active_calls.to_a.find do |call|
+      call.variables[:destination] == destination
+    end ? "alive" : "dead"
   end
 
   Adhearsion::DrbDoor.instance.add "web", "call_with_destination", method("call_with_destination")
