@@ -22,8 +22,8 @@ events.after_initialized.each do
       end
     end
 
-    # Register the method above with Adhearsion's RPC system. In the future, with the new components system, this will
-    # be much cleaner.
+    # Register the method above with Adhearsion's RPC system. In the future, with the new components system,
+    # this will be much cleaner.
     Adhearsion::DrbDoor.instance.add "web", "call_with_destination", method("call_with_destination")   
     Adhearsion::DrbDoor.instance.add "web", "channel_with_destination", method("channel_with_destination")
     

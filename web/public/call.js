@@ -90,7 +90,6 @@ function Call(viewer_element, source, destination) {
 	self.heartbeat = function(has_been_answered) {
 	  jQuery.getJSON("status", {destination: self.destination}, function(data) {
 	    call_status = data.result
-	    alert(call_status);
   	  if(call_status == "alive") {
   	    if(self.state == "connecting" || self.state == "ringing") {
     	    self.transition_to("established");
