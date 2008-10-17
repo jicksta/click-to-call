@@ -13,21 +13,21 @@ function Call(viewer_element, source, destination) {
   var self = this;
   
   // Using the more sophisticated jQuery.ajax method instead of jQuery.post in order to handle errors.
-	jQuery.ajax({
-	  url:  "call",
-	  type: "POST",
-	  success: function(event) { self.transition_to("ringing") },
-	  error:   function(event) { self.transition_to("error")   },
-	  data: "destination=" + self.destination + "&source=" + self.source
-	});
-	
-	// Possible states: new, connecting, error, ringing, established, hanging_up, finished
-	self.state = "new";
-	
-	self.transition_to = function(new_state) {
-	  self.state = new_state;
-	  self.state_transitions[new_state]();
-	};
+  jQuery.ajax({
+    url:  "call",
+    type: "POST",
+    success: function(event) { self.transition_to("ringing") },
+    error:   function(event) { self.transition_to("error")   },
+    data: "destination=" + self.destination + "&source=" + self.source
+  });
+  
+  // Possible states: new, connecting, error, ringing, established, hanging_up, finished
+  self.state = "new";
+  
+  self.transition_to = function(new_state) {
+    self.state = new_state;
+    self.state_transitions[new_state]();
+  };
   
   self.state_transitions = {
     
@@ -83,18 +83,18 @@ function Call(viewer_element, source, destination) {
     return self.hangup_button;
   }
   
-	self.update_text = function(new_text) {
-	  self.text_holder.text(new_text);
-	};
-	
-	self.heartbeat = function(has_been_answered) {
-	  jQuery.getJSON("status", {destination: self.destination}, function(data) {
-	    call_status = data.result
-  	  if(call_status == "alive") {
-  	    if(self.state == "connecting" || self.state == "ringing") {
-    	    self.transition_to("established");
-  	    }
-	      self.queue_next_heartbeat(true);
+  self.update_text = function(new_text) {
+    self.text_holder.text(new_text);
+  };
+  
+  self.heartbeat = function(has_been_answered) {
+    jQuery.getJSON("status", {destination: self.destination}, function(data) {
+      call_status = data.result
+      if(call_status == "alive") {
+        if(self.state == "connecting" || self.state == "ringing") {
+          self.transition_to("established");
+        }
+        self.queue_next_heartbeat(true);
       } else if(call_status == "dead") {
         if(has_been_answered) {
           self.transition_to("finished")
@@ -105,18 +105,18 @@ function Call(viewer_element, source, destination) {
       } else {
         throw "Unrecognized call status " + call_status + "!";
       }
-	  });
-	};
-	
-	self.heartbeat_timeout = 1000;
-	
-	self.queue_next_heartbeat = function(has_been_answered) {
-	  var has_been_answered = has_been_answered;
-	  setTimeout(function() { self.heartbeat(has_been_answered) }, self.heartbeat_timeout);
-	};
+    });
+  };
+  
+  self.heartbeat_timeout = 1000;
+  
+  self.queue_next_heartbeat = function(has_been_answered) {
+    var has_been_answered = has_been_answered;
+    setTimeout(function() { self.heartbeat(has_been_answered) }, self.heartbeat_timeout);
+  };
 
-	self.hangup = function() {
-	  self.transition_to("hanging_up")
+  self.hangup = function() {
+    self.transition_to("hanging_up")
     jQuery.ajax({
       url: "hangup",
       type: "POST",
@@ -124,8 +124,8 @@ function Call(viewer_element, source, destination) {
       error:   function(event) { self.transition_to("error")    },
       data: "call_to_hangup=" + self.destination
     });
-	};
-	
+  };
+  
   self.transition_to("connecting");
   
 }
